@@ -1,4 +1,4 @@
-// Copyright 2021 Northern.tech AS
+// Copyright 2022 Northern.tech AS
 //
 //    Licensed under the Apache License, Version 2.0 (the "License");
 //    you may not use this file except in compliance with the License.
@@ -214,6 +214,9 @@ func isExecutable(path string) bool {
 func isInShells(path string) bool {
 	file, err := os.Open("/etc/shells")
 	if err != nil {
+		if path == "/bin/sh" { // if no /etc/shell is found, /bin/sh is accepted
+			return true
+		}
 		log.Fatal(err)
 	}
 	defer file.Close()
